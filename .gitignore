@@ -18,9 +18,6 @@
 # R Project file
 *.Rproj
 
-# 'data' folder #
-data/
-
 # Common text files that may contain data #
 *.[cC][sS][vV]
 *.[cC][sS][vV].*
