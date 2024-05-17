@@ -26,11 +26,13 @@ navbarPage(
     header = tags$head(includeCSS("www/styles.css"),
                        includeScript("www/javascript.js"),  # CSS stylesheet & JavaScript
     tags$link(rel = "shortcut icon", href = "favicon_phs.ico") # Icon for browser tab
-), ##############################################.
+),
+
+##############################################.
 # INTRO PAGE ----
 ##############################################.
 tabPanel(title = "Introduction",
-    icon = icon_no_warning_fn("circle-info"),
+    icon = icon_no_warning_fn("book-open"),
     value = "intro",
 
     h1("Welcome to the dashboard"),
@@ -42,7 +44,7 @@ tabPanel(title = "Introduction",
 ##############################################.
 tabPanel(title = "Page 1",
     # Look at https://fontawesome.com/search?m=free for icons
-    icon = icon_no_warning_fn("stethoscope"),
+    icon = icon_no_warning_fn("chart-line"),
     value = "intro",
 
     h1("Page 1 title"),
