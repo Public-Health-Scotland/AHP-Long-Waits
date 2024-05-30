@@ -35,7 +35,7 @@ tabPanel(title = "Introduction",
     icon = icon_no_warning_fn("book-open"),
     value = "intro",
 
-    h1("Welcome to the dashboard"),
+    h1("AHP MSK Long Waits"),
     uiOutput("intro_page_ui")
 
 ), # tabpanel
