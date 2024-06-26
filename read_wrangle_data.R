@@ -56,22 +56,22 @@ lines1 <- lines1 %>%
 lines1
 
 # Area ----
-area <- plot_ly(x = ~scotland1$`Month end`,
-               y = ~scotland1$Value,
+area <- plot_ly(x = ~scotland2$`Month end`,
+               y = ~scotland2$Value,
                type = 'scatter',
                mode = 'lines',
                line = list(color = phs_colors("phs-green")),
-               name = '52+ Weeks',
-               #fill = 'tozeroy',
-               stackgroup = 'one',
+               name = '104+ Weeks',
+               fill = 'tonexty',
+               #stackgroup = 'one',
                fillcolor = 'rgba(131, 187, 38, 0.25)'
                )
 
-area <- area %>% add_trace(x = ~scotland2$`Month end`,
-                         y = ~scotland2$Value,
+area <- area %>% add_trace(x = ~scotland1$`Month end`,
+                         y = ~scotland1$Value,
                          line = list(color = phs_colors("phs-purple")),
-                         name = '104+ Weeks',
-                         #fill = 'tozeroy',
+                         name = '52+ Weeks',
+                         fill = 'tonexty',
                          fillcolor = 'rgba(63, 54, 133, 0.25)')
 area <- area %>% layout(xaxis = list(title = 'Month End'),
                       yaxis = list(title = 'Patients Waiting'))
