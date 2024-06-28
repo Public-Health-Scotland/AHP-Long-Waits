@@ -50,11 +50,11 @@ tabPanel(title = "Page 1",
     h1("Page 1 title"),
     uiOutput("page_1_ui"),
     linebreaks(2),
-    h2("An example plot using mtcars data"),
-    plotlyOutput("test_plot"),
+    h2("Breakdown of Length of Wait"),
+    plotlyOutput("top_plot"),
     linebreaks(2),
-    h2("An example data table using mtcars data"),
-    DT::dataTableOutput("test_data_table"),
+    h2("Breakdown of Specialty for 52+ week wait"),
+    plotlyOutput("bottom_plot"),
     linebreaks(2)
 
     ) # tabpanel

@@ -66,75 +66,99 @@ area_plot <- function(dataset, board, specialty){
   sub2 <- dataset |> filter(`NHS Board` == board) |> filter(Indicator == "104+ weeks") |> 
     filter(Specialty == specialty)
   
+  sub3 <- dataset |> filter(`NHS Board` == board) |> filter(Indicator == "156+ weeks") |> 
+    filter(Specialty == specialty)
   
-  area <- plot_ly(x = ~sub2$`Month end`,
-                 y = ~sub2$Value,
+  sub4 <- dataset |> filter(`NHS Board` == board) |> filter(Indicator == "208+ weeks") |> 
+    filter(Specialty == specialty)
+  
+  
+  area <- plot_ly(x = ~sub4$`Month end`,
+                 y = ~sub4$Value,
                  type = 'scatter',
                  mode = 'lines',
                  line = list(color = phs_colors("phs-green")),
-                 name = '104+ Weeks',
+                 name = '208+ Weeks',
                  fill = 'tonexty',
                  #stackgroup = 'one',
                  fillcolor = 'rgba(131, 187, 38, 0.25)'
                  )
   
-  area <- area |> add_trace(x = ~sub1$`Month end`,
-                           y = ~sub1$Value,
+  area <- area |> add_trace(x = ~sub3$`Month end`,
+                           y = ~sub3$Value,
                            line = list(color = phs_colors("phs-purple")),
-                           name = '52+ Weeks',
+                           name = '156+ Weeks',
                            fill = 'tonexty',
                            fillcolor = 'rgba(63, 54, 133, 0.25)')
+  
+  area <- area |> add_trace(x = ~sub2$`Month end`,
+                            y = ~sub2$Value,
+                            line = list(color = phs_colors("phs-rust")),
+                            name = '104+ Weeks',
+                            fill = 'tonexty',
+                            fillcolor = 'rgba(199, 57, 24, 0.5)')
+  
+  area <- area |> add_trace(x = ~sub1$`Month end`,
+                            y = ~sub1$Value,
+                            line = list(color = phs_colors("phs-teal")),
+                            name = '52+ Weeks',
+                            fill = 'tonexty',
+                            fillcolor = 'rgba(30, 127, 132, 0.5)')
+  
   area <- area |> layout(xaxis = list(title = 'Month End'),
                         yaxis = list(title = 'Patients Waiting'))
   return(area)
 }
-area_plot(data, "Dumfries & Galloway", "Physiotherapy")
+area_plot(data, "Scotland", "Physiotherapy")
 
 # Area 2 ----
-scotland_CP <- data |> filter(`NHS Board` == "Scotland") |> filter(Indicator == "52+ weeks") |> 
-  filter(Specialty == "Chiropody/Podiatry")
-
-scotland_OT <- data |> filter(`NHS Board` == "Scotland") |> filter(Indicator == "52+ weeks") |> 
-  filter(Specialty == "Occupational Therapy")
-
-scotland_OR <- data |> filter(`NHS Board` == "Scotland") |> filter(Indicator == "52+ weeks") |> 
-  filter(Specialty == "Orthotics")
-
-scotland_PH <- data |> filter(`NHS Board` == "Scotland") |> filter(Indicator == "52+ weeks") |> 
-  filter(Specialty == "Physiotherapy")
-
-area2 <- plot_ly(x = ~scotland_CP$`Month end`,
-                y = ~scotland_CP$Value,
-                type = 'scatter',
-                mode = 'lines',
-                line = list(color = phs_colors("phs-green")),
-                name = 'Chiropody/Podiatry',
-                stackgroup = 'one',
-                fillcolor = 'rgba(131, 187, 38, 0.5)')
-
-area2 <- area2 |> add_trace(x = ~scotland_OT$`Month end`,
-                           y = ~scotland_OT$Value,
-                           line = list(color = phs_colors("phs-purple")),
-                           name = 'Occupational Therapy',
-                           fillcolor = 'rgba(63, 54, 133, 0.5)')
-
-area2 <- area2 |> add_trace(x = ~scotland_OR$`Month end`,
-                             y = ~scotland_OR$Value,
-                             line = list(color = phs_colors("phs-rust")),
-                             name = 'Orthorics',
-                             fillcolor = 'rgba(199, 57, 24, 0.5)')
-
-area2 <- area2 |> add_trace(x = ~scotland_PH$`Month end`,
-                             y = ~scotland_PH$Value,
-                             line = list(color = phs_colors("phs-teal")),
-                             name = 'Physiotherapy',
-                             fillcolor = 'rgba(30, 127, 132, 0.5)')
-
-area2 <- area2 |>  layout(xaxis = list(title = 'Month End'),
-                        yaxis = list(title = 'Patients Waiting'))
-
-area2
-
+area2_plot <- function(data, board, indicator){
+  chiro <- data |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
+    filter(Specialty == "Chiropody/Podiatry")
+  
+  ot <- data |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
+    filter(Specialty == "Occupational Therapy")
+  
+  ortho <- data |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
+    filter(Specialty == "Orthotics")
+  
+  physio <- data |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
+    filter(Specialty == "Physiotherapy")
+  
+  area2 <- plot_ly(x = ~chiro$`Month end`,
+                   y = ~chiro$Value,
+                   type = 'scatter',
+                   mode = 'lines',
+                   line = list(color = phs_colors("phs-green")),
+                   name = 'Chiropody/Podiatry',
+                   stackgroup = 'one',
+                   fillcolor = 'rgba(131, 187, 38, 0.5)')
+  
+  area2 <- area2 |> add_trace(x = ~ot$`Month end`,
+                              y = ~ot$Value,
+                              line = list(color = phs_colors("phs-purple")),
+                              name = 'Occupational Therapy',
+                              fillcolor = 'rgba(63, 54, 133, 0.5)')
+  
+  area2 <- area2 |> add_trace(x = ~ortho$`Month end`,
+                              y = ~ortho$Value,
+                              line = list(color = phs_colors("phs-rust")),
+                              name = 'Orthorics',
+                              fillcolor = 'rgba(199, 57, 24, 0.5)')
+  
+  area2 <- area2 |> add_trace(x = ~physio$`Month end`,
+                              y = ~physio$Value,
+                              line = list(color = phs_colors("phs-teal")),
+                              name = 'Physiotherapy',
+                              fillcolor = 'rgba(30, 127, 132, 0.5)')
+  
+  area2 <- area2 |>  layout(xaxis = list(title = 'Month End'),
+                            yaxis = list(title = 'Patients Waiting'))
+  
+  return(area2)
+}
+  
+area2_plot(data, "Scotland", "208+ weeks")
 
 
 

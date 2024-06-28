@@ -13,12 +13,11 @@ output$page_1_ui <-  renderUI({
 }) # renderUI
 
 
-# Data table example
-output$test_data_table <- DT::renderDataTable({
-  make_table(datasets::mtcars, rows_to_display = 10)
+# Plotly plot example
+output$top_plot <- renderPlotly({
+  area_plot(data, "Scotland", "Physiotherapy")
 })
 
-# Plotly plot example
-output$test_plot <- renderPlotly({
-  mtcars_plot(datasets::mtcars)
+output$bottom_plot <- renderPlotly({
+  area2_plot(data, "Scotland", "52+ weeks")
 })
