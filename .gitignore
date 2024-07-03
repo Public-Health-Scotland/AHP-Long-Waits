@@ -15,8 +15,6 @@
 # R Environment Variables
 .Renviron
 
-# R Project file
-*.Rproj
 
 # Common text files that may contain data #
 *.[cC][sS][vV]
@@ -24,7 +22,7 @@
 *.[tT][xX][tT]
 
 # Excel files #
-*.[xX][lL][sS]*
+#*.[xX][lL][sS]*
 
 # SPSS formats #
 *.[sS][aA][vV]
