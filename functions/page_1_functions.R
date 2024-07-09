@@ -3,17 +3,17 @@
 
 area_plot <- function(dataset, board, specialty){
   
-  sub1 <- dataset |> filter(`NHS Board` == board) |> filter(Indicator == "52+ weeks") |> 
-    filter(Specialty == specialty)
+  sub1 <- dataset |> filter(`NHS Board` %in% board) |> filter(Indicator %in% "52+ weeks") |> 
+    filter(Specialty %in% specialty)
   
-  sub2 <- dataset |> filter(`NHS Board` == board) |> filter(Indicator == "104+ weeks") |> 
-    filter(Specialty == specialty)
+  sub2 <- dataset |> filter(`NHS Board` %in% board) |> filter(Indicator %in% "104+ weeks") |> 
+    filter(Specialty %in% specialty)
   
-  sub3 <- dataset |> filter(`NHS Board` == board) |> filter(Indicator == "156+ weeks") |> 
-    filter(Specialty == specialty)
+  sub3 <- dataset |> filter(`NHS Board` %in% board) |> filter(Indicator %in% "156+ weeks") |> 
+    filter(Specialty %in% specialty)
   
-  sub4 <- dataset |> filter(`NHS Board` == board) |> filter(Indicator == "208+ weeks") |> 
-    filter(Specialty == specialty)
+  sub4 <- dataset |> filter(`NHS Board` %in% board) |> filter(Indicator %in% "208+ weeks") |> 
+    filter(Specialty %in% specialty)
   
   
   area <- plot_ly(x = ~sub4$`Month end`,
@@ -55,17 +55,17 @@ area_plot <- function(dataset, board, specialty){
 }
 
 area2_plot <- function(data, board, indicator){
-  chiro <- data |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
-    filter(Specialty == "Chiropody/Podiatry")
+  chiro <- data |> filter(`NHS Board` %in% board) |> filter(Indicator %in% indicator) |> 
+    filter(Specialty %in% "Chiropody/Podiatry")
   
-  ot <- data |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
-    filter(Specialty == "Occupational Therapy")
+  ot <- data |> filter(`NHS Board` %in% board) |> filter(Indicator %in% indicator) |> 
+    filter(Specialty %in% "Occupational Therapy")
   
-  ortho <- data |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
-    filter(Specialty == "Orthotics")
+  ortho <- data |> filter(`NHS Board` %in% board) |> filter(Indicator %in% indicator) |> 
+    filter(Specialty %in% "Orthotics")
   
-  physio <- data |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
-    filter(Specialty == "Physiotherapy")
+  physio <- data |> filter(`NHS Board` %in% board) |> filter(Indicator %in% indicator) |> 
+    filter(Specialty %in% "Physiotherapy")
   
   area2 <- plot_ly(x = ~chiro$`Month end`,
                    y = ~chiro$Value,
