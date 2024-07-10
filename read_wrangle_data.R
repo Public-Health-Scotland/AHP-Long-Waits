@@ -187,8 +187,8 @@ data$Indicator <- factor(data$Indicator,
 
 waiting_times_palette <- phs_colours(c("phs-blue-80","phs-blue-50", "phs-blue-30", "phs-graphite-80","phs-graphite-50", "phs-graphite-30","phs-magenta-80","phs-magenta-50"))
 
-distribution_number_filtered <- data %>%
-  filter(`NHS Board` == "Scotland") %>%
+distribution_number_filtered <- data |>
+  filter(`NHS Board` == "Scotland") |>
   filter(Specialty == "All AHP MSK Specialties")
 
 
@@ -203,7 +203,7 @@ distribution_number_filtered <- data %>%
                              sep = "\n"),
           type = "bar",
           color = ~Indicator,
-          colors = waiting_times_palette) %>%
+          colors = waiting_times_palette) |>
     layout(legend = list(orientation = 'h', 
                          traceorder = 'normal',
                          x = 0.0, 
@@ -226,7 +226,7 @@ distribution_number_filtered <- data %>%
                         linecolor = 'black',
                         tickfont = list(size = 14))
            
-    ) #%>%
+    ) #|>
     #config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )  
 
 

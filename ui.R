@@ -1,9 +1,9 @@
 ##########################################################
-# AHP-Long-Waits
+# AHP-Long-Waits Shiny Dashboard
 # Original author(s): Stewart Wilson
-# Original date: 2024-05-17
+# Original date: 2024-07-10
 # Written/run on RStudio server 2022.7.2.576.12 and R 4.1.2
-# Description of content
+# Created as part of my University course.
 ##########################################################
 
 

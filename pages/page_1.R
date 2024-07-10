@@ -19,6 +19,10 @@ output$page_1_ui <-  renderUI({
       plotlyOutput("top_plot"),
       linebreaks(2),
       fluidRow(
+        div(style="display:inline-block",inputPanel(selectInput("board_2",
+                                                                label = "Select a Board",
+                                                                choices = unique(data$`NHS Board`),
+                                                                selected = "Scotland"))),
         div(style="display:inline-block",inputPanel(selectInput("indicator",
                                                                 label = "Select an Indicator",
                                                                 choices = c("25 - 28 weeks",
@@ -66,5 +70,5 @@ output$top_plot <- renderPlotly({
 })
 
 output$bottom_plot <- renderPlotly({
-  area2_plot(data, input$board, input$indicator)
+  area2_plot(data, input$board_2, input$indicator)
 })

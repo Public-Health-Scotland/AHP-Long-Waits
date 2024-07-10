@@ -11,25 +11,21 @@ pacman::p_load(dplyr,
                plotly,
                phsstyles)
 
+# Use remotes to install phsstyles from GitHub if pacman installation fails.
+if (!require("phsstyles")) remotes::install_github("Public-Health-Scotland/phsstyles")
+
 # Load core functions ----
 source("functions/core_functions.R")
-
-## Plotting ----
-# Style of x and y axis
-xaxis_plots <- list(title = FALSE, tickfont = list(size=14), titlefont = list(size=14),
-                    showline = TRUE, fixedrange=TRUE)
-
-yaxis_plots <- list(title = FALSE, rangemode="tozero", fixedrange=TRUE, size = 4,
-                    tickfont = list(size=14), titlefont = list(size=14))
 
 # Buttons to remove from plotly plots
 bttn_remove <-  list('select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d',
                      'autoScale2d',   'toggleSpikelines',  'hoverCompareCartesian',
                      'hoverClosestCartesian')
+
 # Load in data
 data <- read_excel(here("data", "Waiting Monthly [New Time-Bands] Snapshot ---Extended---.xlsx")) |> 
-  mutate(`Specialty` = str_remove(`Specialty`, "Chiropody/")) |> 
-  filter(Indicator %in% c("25 - 28 weeks",
+  mutate(`Specialty` = str_remove(`Specialty`, "Chiropody/")) |> # Remove the word 'Chiropody' from 'Podiatry' as this is no longer used.
+  filter(Indicator %in% c("25 - 28 weeks", # Filter out the irrelevant shorter timebands to only show patients waiting longer than 24 weeks.
                           "29 - 32 weeks",
                           "33 - 36 weeks",
                           "37 - 40 weeks",
@@ -56,5 +52,5 @@ data <- read_excel(here("data", "Waiting Monthly [New Time-Bands] Snapshot ---Ex
                           "104+ weeks",
                           "156+ weeks",
                           "208+ weeks"
-  ))
+                          ))
 

@@ -1,8 +1,8 @@
 ####################### Page 1 functions #######################
 
-
 area_plot <- function(dataset, board, specialty){
   
+  # Create the subsets of data for each timeband
   sub1 <- dataset |> filter(`NHS Board` %in% board) |> filter(Indicator %in% "52+ weeks") |> 
     filter(Specialty %in% specialty)
   
@@ -15,7 +15,7 @@ area_plot <- function(dataset, board, specialty){
   sub4 <- dataset |> filter(`NHS Board` %in% board) |> filter(Indicator %in% "208+ weeks") |> 
     filter(Specialty %in% specialty)
   
-  
+  # Add each trace in 'reverse' order because 52+ includes all the others so it needs to be at the top of the chart
   area <- plot_ly(x = ~sub4$`Month end`,
                   y = ~sub4$Value,
                   type = 'scatter',
@@ -23,10 +23,8 @@ area_plot <- function(dataset, board, specialty){
                   line = list(color = phs_colors("phs-green")),
                   name = '208+ Weeks',
                   fill = 'tonexty',
-                  #stackgroup = 'one',
-                  fillcolor = 'rgba(131, 187, 38, 0.5)'
+                  fillcolor = 'rgba(131, 187, 38, 0.5)' # Fill colours with 0.5 alpha to look nicer
   )
-  
   area <- area |> add_trace(x = ~sub3$`Month end`,
                             y = ~sub3$Value,
                             line = list(color = phs_colors("phs-purple")),
@@ -48,7 +46,8 @@ area_plot <- function(dataset, board, specialty){
                             fill = 'tonexty',
                             fillcolor = 'rgba(30, 127, 132, 0.5)')
   
-  area <- area |> layout(xaxis = list(title = '', 
+  area <- area |> layout(xaxis = list(title = '',
+                                      # Define x-axis ticks because the default is incorrect
                                       tickvals = c("2023-03-31", "2023-06-30", "2023-09-30", "2023-12-31", "2024-03-31"), 
                                       tickformat = "%b-%y",
                                       showline = T, 
@@ -63,12 +62,16 @@ area_plot <- function(dataset, board, specialty){
                                       linecolor = 'black', 
                                       ticks = "outside",
                                       tickfont = list(size = 14)),
+                         # hovermode unify to show one hovertext for each month so you can easily compare.
                          hovermode = "x unified")
+  # Remove unused buttons from plotly
   area <- area |> config(modeBarButtonsToRemove = bttn_remove)
   return(area)
 }
 
 area2_plot <- function(data, board, indicator){
+  
+  # Create subsets for each specialty
   podiatry <- data |> filter(`NHS Board` %in% board) |> filter(Indicator %in% indicator) |> 
     filter(Specialty %in% "Podiatry")
   
@@ -80,6 +83,8 @@ area2_plot <- function(data, board, indicator){
   
   physio <- data |> filter(`NHS Board` %in% board) |> filter(Indicator %in% indicator) |> 
     filter(Specialty %in% "Physiotherapy")
+  
+  
   
   area2 <- plot_ly(x = ~podiatry$`Month end`,
                    y = ~podiatry$Value,
