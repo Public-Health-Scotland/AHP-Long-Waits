@@ -28,6 +28,7 @@ bttn_remove <-  list('select2d', 'lasso2d', 'zoomIn2d', 'zoomOut2d',
                      'hoverClosestCartesian')
 # Load in data
 data <- read_excel(here("data", "Waiting Monthly [New Time-Bands] Snapshot ---Extended---.xlsx")) |> 
+  mutate(`Specialty` = str_remove(`Specialty`, "Chiropody/")) |> 
   filter(Indicator %in% c("25 - 28 weeks",
                           "29 - 32 weeks",
                           "33 - 36 weeks",

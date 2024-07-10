@@ -5,30 +5,40 @@ if (!require("pacman")) install.packages("pacman")
 pacman::p_load(dplyr,
                lubridate,
                readxl,
-               tidyverse,
                here,
                plotly,
                phsstyles)
 
-data <- read_excel(here("data", "Waiting Monthly [New Time-Bands] Snapshot ---Extended---.xlsx")) |>
-  filter(`Indicator` %in% c("Patients waiting",
-         "43 - 56 weeks",
-         "57 - 60 weeks",
-         "61 - 64 weeks",
-         "65 - 68 weeks",
-         "69 - 72 weeks",
-         "73 - 76 weeks",
-         "77 - 80 weeks",
-         "81 - 84 weeks",
-         "85 - 88 weeks",
-         "89 - 92 weeks",
-         "93 - 96 weeks",
-         "97 - 100 weeks",
-         "100 - 104 weeks",
-         "104+ weeks",
-         "52+ weeks",
-         "156+ weeks",
-         "208+ weeks"))
+data <- read_excel(here("data", "Waiting Monthly [New Time-Bands] Snapshot ---Extended---.xlsx")) |> 
+  mutate(`Specialty` = str_remove(`Specialty`, "Chiropody/")) |> 
+  filter(Indicator %in% c("25 - 28 weeks",
+                          "29 - 32 weeks",
+                          "33 - 36 weeks",
+                          "37 - 40 weeks",
+                          "41 - 44 weeks",
+                          "45 - 48 weeks",
+                          "49 - 52 weeks",
+                          "43 - 56 weeks",
+                          "57 - 60 weeks",
+                          "61 - 64 weeks",
+                          "65 - 68 weeks",
+                          "69 - 72 weeks",
+                          "73 - 76 weeks",
+                          "77 - 80 weeks",
+                          "81 - 84 weeks",
+                          "85 - 88 weeks",
+                          "89 - 92 weeks",
+                          "93 - 96 weeks",
+                          "97 - 100 weeks",
+                          "100 - 104 weeks",
+                          "4+ weeks",
+                          "16+ weeks",
+                          "24+ weeks",
+                          "52+ weeks",
+                          "104+ weeks",
+                          "156+ weeks",
+                          "208+ weeks"
+  ))
 
 # Data Frames ----
 scotland1 <- data |> filter(`NHS Board` == "Scotland") |> filter(Indicator == "52+ weeks") |> 
@@ -113,8 +123,8 @@ area_plot(data, "Scotland", "Physiotherapy")
 
 # Area 2 ----
 area2_plot <- function(data, board, indicator){
-  chiro <- data |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
-    filter(Specialty == "Chiropody/Podiatry")
+  podiatry <- data |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
+    filter(Specialty == "Podiatry")
   
   ot <- data |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
     filter(Specialty == "Occupational Therapy")
@@ -125,12 +135,12 @@ area2_plot <- function(data, board, indicator){
   physio <- data |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
     filter(Specialty == "Physiotherapy")
   
-  area2 <- plot_ly(x = ~chiro$`Month end`,
-                   y = ~chiro$Value,
+  area2 <- plot_ly(x = ~podiatry$`Month end`,
+                   y = ~podiatry$Value,
                    type = 'scatter',
                    mode = 'lines',
                    line = list(color = phs_colors("phs-green")),
-                   name = 'Chiropody/Podiatry',
+                   name = 'Podiatry',
                    stackgroup = 'one',
                    fillcolor = 'rgba(131, 187, 38, 0.5)')
   
@@ -160,6 +170,63 @@ area2_plot <- function(data, board, indicator){
   
 area2_plot(data, "Scotland", "208+ weeks")
 
+# Distribution ----
 
+# Set order of levels for Indicator column
+data$Indicator <- factor(data$Indicator,
+                                        levels=c("25 - 28 weeks",
+                                                 "29 - 32 weeks",
+                                                 "33 - 36 weeks",
+                                                 "37 - 40 weeks",
+                                                 "41 - 44 weeks",
+                                                 "45 - 48 weeks",
+                                                 "49 - 52 weeks")
+)
+
+# Create filtered_data to use in the distribution of wait chart
+
+waiting_times_palette <- phs_colours(c("phs-blue-80","phs-blue-50", "phs-blue-30", "phs-graphite-80","phs-graphite-50", "phs-graphite-30","phs-magenta-80","phs-magenta-50"))
+
+distribution_number_filtered <- data %>%
+  filter(`NHS Board` == "Scotland") %>%
+  filter(Specialty == "All AHP MSK Specialties")
+
+
+# Create chart using plotly
+  plot_ly(distribution_number_filtered, 
+          x = ~`Month end`,
+          y = ~`Value`,
+          hoverinfo = 'text',
+          hovertext = ~paste(paste("Month end:", `Month end`),
+                             paste("Value:",`Value`),
+                             paste("Distribution band:", Indicator),
+                             sep = "\n"),
+          type = "bar",
+          color = ~Indicator,
+          colors = waiting_times_palette) %>%
+    layout(legend = list(orientation = 'h', 
+                         traceorder = 'normal',
+                         x = 0.0, 
+                         y = -0.2,
+                         font = list(size = 14)),
+           yaxis = list(title = 'Number', 
+                        tickformat = ",d", 
+                        showline = T, 
+                        linewidth=2, 
+                        linecolor = 'black', 
+                        ticks = "outside",
+                        tickfont = list(size = 14)), 
+           barmode = 'stack', 
+           xaxis = list(title = '', 
+                        tickvals = c("2023-03-31", "2023-06-30", "2023-09-30", "2023-12-31", "2024-03-31"),
+                        tickformat = "%b-%y", 
+                        ticks = "outside", 
+                        showline = T, 
+                        linewidth = 2, 
+                        linecolor = 'black',
+                        tickfont = list(size = 14))
+           
+    ) #%>%
+    #config(displaylogo = F, displayModeBar = TRUE, modeBarButtonsToRemove = bttn_remove )  
 
 

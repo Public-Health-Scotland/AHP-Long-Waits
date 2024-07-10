@@ -4,6 +4,7 @@ output$page_1_ui <-  renderUI({
   
   div(
     fluidRow(
+      h1("AHP MSK Long Waits"),
       div(style="display:inline-block",inputPanel(selectInput("board",
                                                               label = "Select a Board",
                                                               choices = unique(data$`NHS Board`),

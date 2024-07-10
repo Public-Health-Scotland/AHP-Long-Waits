@@ -34,8 +34,6 @@ ui <- fluidPage(
       tabPanel(title = "Introduction",
                icon = icon_no_warning_fn("book-open"),
                value = "intro",
-               
-               h1("AHP MSK Long Waits"),
                uiOutput("intro_page_ui")
                
       ), # tabpanel
@@ -46,8 +44,6 @@ ui <- fluidPage(
                # Look at https://fontawesome.com/search?m=free for icons
                icon = icon_no_warning_fn("chart-line"),
                value = "intro",
-               
-               h1("Page 1 title"),
                uiOutput("page_1_ui"),
                
                
@@ -55,24 +51,5 @@ ui <- fluidPage(
     ) # navbar
   ) # taglist
 ) # ui fluidpage
-
-# ----------------------------------------------
-# Server
-
-server <- function(input, output, session) {
-  
-  # Get functions
-  source(file.path("functions/core_functions.R"), local = TRUE)$value
-  source(file.path("functions/intro_page_functions.R"), local = TRUE)$value
-  source(file.path("functions/page_1_functions.R"), local = TRUE)$value
-  
-  # Get content for individual pages
-  source(file.path("pages/intro_page.R"), local = TRUE)$value
-  source(file.path("pages/page_1.R"), local = TRUE)$value
-  
-}
-
-# Run the application
-shinyApp(ui=ui, server=server)
 
 ### END OF SCRIPT ###

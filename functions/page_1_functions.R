@@ -24,7 +24,7 @@ area_plot <- function(dataset, board, specialty){
                   name = '208+ Weeks',
                   fill = 'tonexty',
                   #stackgroup = 'one',
-                  fillcolor = 'rgba(131, 187, 38, 0.25)'
+                  fillcolor = 'rgba(131, 187, 38, 0.5)'
   )
   
   area <- area |> add_trace(x = ~sub3$`Month end`,
@@ -32,7 +32,7 @@ area_plot <- function(dataset, board, specialty){
                             line = list(color = phs_colors("phs-purple")),
                             name = '156+ Weeks',
                             fill = 'tonexty',
-                            fillcolor = 'rgba(63, 54, 133, 0.25)')
+                            fillcolor = 'rgba(63, 54, 133, 0.5)')
   
   area <- area |> add_trace(x = ~sub2$`Month end`,
                             y = ~sub2$Value,
@@ -48,15 +48,29 @@ area_plot <- function(dataset, board, specialty){
                             fill = 'tonexty',
                             fillcolor = 'rgba(30, 127, 132, 0.5)')
   
-  area <- area |> layout(xaxis = list(title = 'Month End'),
-                         yaxis = list(title = 'Patients Waiting'))
+  area <- area |> layout(xaxis = list(title = '', 
+                                      tickvals = c("2023-03-31", "2023-06-30", "2023-09-30", "2023-12-31", "2024-03-31"), 
+                                      tickformat = "%b-%y",
+                                      showline = T, 
+                                      linewidth=2,
+                                      linecolor = 'black',
+                                      ticks = "outside",
+                                      tickfont = list(size = 14)),
+                         yaxis = list(title = 'Number', 
+                                      tickformat = ",d", 
+                                      showline = T, 
+                                      linewidth=2, 
+                                      linecolor = 'black', 
+                                      ticks = "outside",
+                                      tickfont = list(size = 14)),
+                         hovermode = "x unified")
   area <- area |> config(modeBarButtonsToRemove = bttn_remove)
   return(area)
 }
 
 area2_plot <- function(data, board, indicator){
-  chiro <- data |> filter(`NHS Board` %in% board) |> filter(Indicator %in% indicator) |> 
-    filter(Specialty %in% "Chiropody/Podiatry")
+  podiatry <- data |> filter(`NHS Board` %in% board) |> filter(Indicator %in% indicator) |> 
+    filter(Specialty %in% "Podiatry")
   
   ot <- data |> filter(`NHS Board` %in% board) |> filter(Indicator %in% indicator) |> 
     filter(Specialty %in% "Occupational Therapy")
@@ -67,12 +81,12 @@ area2_plot <- function(data, board, indicator){
   physio <- data |> filter(`NHS Board` %in% board) |> filter(Indicator %in% indicator) |> 
     filter(Specialty %in% "Physiotherapy")
   
-  area2 <- plot_ly(x = ~chiro$`Month end`,
-                   y = ~chiro$Value,
+  area2 <- plot_ly(x = ~podiatry$`Month end`,
+                   y = ~podiatry$Value,
                    type = 'scatter',
                    mode = 'lines',
                    line = list(color = phs_colors("phs-green")),
-                   name = 'Chiropody/Podiatry',
+                   name = 'Podiatry',
                    stackgroup = 'one',
                    fillcolor = 'rgba(131, 187, 38, 0.5)')
   
@@ -94,8 +108,22 @@ area2_plot <- function(data, board, indicator){
                               name = 'Physiotherapy',
                               fillcolor = 'rgba(30, 127, 132, 0.5)')
   
-  area2 <- area2 |>  layout(xaxis = list(title = 'Month End'),
-                            yaxis = list(title = 'Patients Waiting'))
+  area2 <- area2 |>  layout(xaxis = list(title = '', 
+                                         tickvals = c("2023-03-31", "2023-06-30", "2023-09-30", "2023-12-31", "2024-03-31"), 
+                                         tickformat = "%b-%y",
+                                         showline = T, 
+                                         linewidth=2,
+                                         linecolor = 'black',
+                                         ticks = "outside",
+                                         tickfont = list(size = 14)),
+                            yaxis = list(title = 'Number', 
+                                         tickformat = ",d", 
+                                         showline = T, 
+                                         linewidth=2, 
+                                         linecolor = 'black', 
+                                         ticks = "outside",
+                                         tickfont = list(size = 14)),
+                            hovermode = "x unified")
   area2 <- area2 |> config(modeBarButtonsToRemove = bttn_remove)
   
   return(area2)
