@@ -15,6 +15,8 @@ area_plot <- function(dataset, board, specialty){
   sub4 <- dataset |> filter(`NHS Board` %in% board) |> filter(Indicator %in% "208+ weeks") |> 
     filter(Specialty %in% specialty)
   
+  ticks <- 
+  
   # Add each trace in 'reverse' order because 52+ includes all the others so it needs to be at the top of the chart
   area <- plot_ly(x = ~sub4$`Month end`,
                   y = ~sub4$Value,
@@ -48,7 +50,7 @@ area_plot <- function(dataset, board, specialty){
   
   area <- area |> layout(xaxis = list(title = '',
                                       # Define x-axis ticks because the default is incorrect
-                                      tickvals = c("2023-03-31", "2023-06-30", "2023-09-30", "2023-12-31", "2024-03-31"), 
+                                      tickvals = get_ticks(sub4), 
                                       tickformat = "%b-%y",
                                       showline = T, 
                                       linewidth=2,
@@ -114,7 +116,7 @@ area2_plot <- function(data, board, indicator){
                               fillcolor = 'rgba(30, 127, 132, 0.5)')
   
   area2 <- area2 |>  layout(xaxis = list(title = '', 
-                                         tickvals = c("2023-03-31", "2023-06-30", "2023-09-30", "2023-12-31", "2024-03-31"), 
+                                         tickvals = get_ticks(podiatry), 
                                          tickformat = "%b-%y",
                                          showline = T, 
                                          linewidth=2,

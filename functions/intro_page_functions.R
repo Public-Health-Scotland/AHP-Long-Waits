@@ -49,7 +49,7 @@ intro_plot <- function(dataset, board, specialty){
                                                   tickfont = list(size = 14)),
                                      xaxis = list(title = '',
                                                   # Define x-axis ticks as the default is incorrect
-                                                  tickvals = c("2023-03-31", "2023-06-30", "2023-09-30", "2023-12-31", "2024-03-31"),
+                                                  tickvals = get_ticks(dataset),
                                                   tickformat = "%b-%y",
                                                   ticks = "outside",
                                                   showline = T,

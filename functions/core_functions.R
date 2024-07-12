@@ -8,6 +8,15 @@ icon_no_warning_fn = function(icon_name) {
   icon(icon_name, verify_fa=FALSE)
 }
 
+# Get date ticks from dataset (every 3rd month)
+get_ticks <- function(data){
+  min <- unique(data$`Month end`)
+  ticks <- min[seq(1, length(min), 3)]
+  return(ticks)
+}
+
+get_ticks(data)
+
 # Generic data table
 make_table <- function(input_data_table,
                        rows_to_display = 20
