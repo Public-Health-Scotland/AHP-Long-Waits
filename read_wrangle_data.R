@@ -7,11 +7,12 @@ pacman::p_load(dplyr,
                readxl,
                here,
                plotly,
+               stringr,
                phsstyles)
 
 data <- read_excel(here("data", "Waiting Monthly [New Time-Bands] Snapshot ---Extended---.xlsx")) |> 
-  mutate(`Specialty` = str_remove(`Specialty`, "Chiropody/")) |> 
-  filter(Indicator %in% c("25 - 28 weeks",
+  mutate(`Specialty` = str_remove(`Specialty`, "Chiropody/")) |> # Remove the word 'Chiropody' from 'Podiatry' as this is no longer used.
+  filter(Indicator %in% c("25 - 28 weeks", # Filter out the irrelevant shorter timebands to only show patients waiting longer than 24 weeks.
                           "29 - 32 weeks",
                           "33 - 36 weeks",
                           "37 - 40 weeks",
