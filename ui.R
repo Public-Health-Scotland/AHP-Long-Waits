@@ -40,7 +40,7 @@ ui <- fluidPage(
       ##############################################.
       # PAGE 1 ----
       ##############################################.
-      tabPanel(title = "Page 1",
+      tabPanel(title = "Breakdown",
                # Look at https://fontawesome.com/search?m=free for icons
                icon = icon_no_warning_fn("chart-line"),
                value = "intro",

@@ -15,7 +15,7 @@ output$page_1_ui <-  renderUI({
                                                               selected = "All AHP MSK Specialties"))),
       
       linebreaks(2),
-      h2("Breakdown of Length of Wait"),
+      h2("Length of Wait for time bands beyond 52 weeks"),
       plotlyOutput("top_plot"),
       linebreaks(2),
       fluidRow(
@@ -53,7 +53,7 @@ output$page_1_ui <-  renderUI({
                                                                             "156+ weeks",
                                                                             "208+ weeks"),
                                                                 selected = "52+ weeks"))),
-        h2("Breakdown of Specialty for 52+ week wait"),
+        h2("Breakdown of Specialties by selected Time Band"),
         plotlyOutput("bottom_plot"),
         linebreaks(2)
       ) #fluidrow
