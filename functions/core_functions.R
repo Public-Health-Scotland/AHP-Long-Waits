@@ -15,8 +15,6 @@ get_ticks <- function(data){
   return(ticks)
 }
 
-get_ticks(data)
-
 # Generic data table
 make_table <- function(input_data_table,
                        rows_to_display = 20

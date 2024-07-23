@@ -12,20 +12,20 @@ source("setup.R")
 
 # UI
 ui <- fluidPage(
+  lang = "en",
   tagList(
-    # Specify most recent fontawesome library - change version as needed
     tags$style("@import url(https://use.fontawesome.com/releases/v6.1.2/css/all.css);"),
     navbarPage(
-      id = "intabset", # id used for jumping between tabs
-      title = div(
-        tags$a(img(src = "phs-logo.png", height = 40),
-               href = "https://www.publichealthscotland.scot/",
-               target = "_blank"), # PHS logo links to PHS website
-        style = "position: relative; top: -5px;"),
-      windowTitle = "AHP-Long-Waits",# Title for browser tab
+      id = "intabset",
+      title = div(tags$a(img(src = "phs-logo.png", height = 40, alt = "Go to Public Health Scotland (external site)"),
+                         href = "https://www.publichealthscotland.scot/",
+                         target = "_blank"
+      ),
+      style = "position: relative; top: -5px;"),
+      windowTitle = "AHP Long Waits",
       header = tags$head(includeCSS("www/styles.css"),
-                         includeScript("www/javascript.js"),  # CSS stylesheet & JavaScript
-                         tags$link(rel = "shortcut icon", href = "favicon_phs.ico") # Icon for browser tab
+                         includeScript("www/javascript.js"),
+                         tags$link(rel = "shortcut icon", href = "favicon_phs.ico")
       ),
       
       ##############################################.
