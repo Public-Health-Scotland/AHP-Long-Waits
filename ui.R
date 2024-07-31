@@ -43,7 +43,7 @@ ui <- fluidPage(
       tabPanel(title = "Breakdown",
                # Look at https://fontawesome.com/search?m=free for icons
                icon = icon_no_warning_fn("chart-line"),
-               value = "intro",
+               value = "breakdown",
                uiOutput("page_1_ui"),
                
                
