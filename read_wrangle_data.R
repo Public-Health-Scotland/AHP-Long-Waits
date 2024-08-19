@@ -41,6 +41,14 @@ data <- read_excel(here("data", "Waiting Monthly [New Time-Bands] Snapshot ---Ex
                           "208+ weeks"
   ))
 
+get_ticks <- function(data){
+  min <- unique(data$`Month end`)
+  ticks <- min[seq(1, length(min), 3)]
+  return(ticks)
+}
+
+waiting_times_palette <- phs_colours(c("phs-green-80",  "phs-rust-80", "phs-teal-80","phs-purple-80"))
+
 # Data Frames ----
 scotland1 <- data |> filter(`NHS Board` == "Scotland") |> filter(Indicator == "52+ weeks") |> 
   filter(Specialty == "All AHP MSK Specialties")
@@ -50,6 +58,70 @@ scotland2 <- data |> filter(`NHS Board` == "Scotland") |> filter(Indicator == "1
 
 physio <- data |> filter(Specialty == "Physiotherapy") |> filter(Indicator == "52+ weeks") |> 
   filter(`NHS Board` != "Scotland")
+
+# Experiment ----
+experiment <- function(dataset, board, indicator){
+  podiatry <- dataset |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
+    filter(Specialty == "Podiatry")
+  
+  ot <- dataset |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
+    filter(Specialty == "Occupational Therapy")
+  
+  ortho <- dataset |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
+    filter(Specialty == "Orthotics")
+  
+  physio <- dataset |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
+    filter(Specialty == "Physiotherapy")
+  
+  exp <- plot_ly(x = ~podiatry$`Month end`,
+             y = ~podiatry$Value,
+             type = 'bar',
+             name = 'Podiatry',
+             colors = waiting_times_palette,
+             color = ~podiatry$Specialty)
+  
+  exp <- exp |> add_bars(x = ~ot$`Month end`,
+                         y = ~ot$Value,
+                         type = 'bar',
+                         name = 'Occupational Therapy',
+                         colors = waiting_times_palette,
+                         color = ~ot$Specialty)
+  
+  exp <- exp |> add_bars(x = ~ortho$`Month end`,
+                         y = ~ortho$Value,
+                         type = 'bar',
+                         name = 'Orthotics',
+                         colors = waiting_times_palette,
+                         color = ~ortho$Specialty)
+  
+  exp <- exp |> add_bars(x = ~physio$`Month end`,
+                         y = ~physio$Value,
+                         type = 'bar',
+                         name = 'Physiotherapy',
+                         colors = waiting_times_palette,
+                         color = ~physio$Specialty)
+  
+  exp <- exp |> layout(xaxis = list(title = '',
+                                      # Define x-axis ticks because the default is incorrect
+                                      tickvals = get_ticks(dataset), 
+                                      tickformat = "%b-%y",
+                                      showline = T, 
+                                      linewidth=2,
+                                      linecolor = 'black',
+                                      ticks = "outside",
+                                      tickfont = list(size = 14)),
+                         yaxis = list(title = 'Number', 
+                                      tickformat = ",d", 
+                                      showline = T, 
+                                      linewidth=2, 
+                                      linecolor = 'black', 
+                                      ticks = "outside",
+                                      tickfont = list(size = 14)))
+  
+  return(exp)
+}
+experiment(data, "Scotland", "52+ weeks")
+
 
 # Lines ----
 lines1 <- plot_ly() |>
