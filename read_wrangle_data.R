@@ -59,7 +59,7 @@ scotland2 <- data |> filter(`NHS Board` == "Scotland") |> filter(Indicator == "1
 physio <- data |> filter(Specialty == "Physiotherapy") |> filter(Indicator == "52+ weeks") |> 
   filter(`NHS Board` != "Scotland")
 
-# Experiment ----
+# Experiment 9Tracey doesn't like this ----
 experiment <- function(dataset, board, indicator){
   podiatry <- dataset |> filter(`NHS Board` == board) |> filter(Indicator == indicator) |> 
     filter(Specialty == "Podiatry")
